@@ -1,0 +1,16 @@
+name: Test Self-Hosted Runner
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: self-hosted
+
+    steps:
+      - name: Test runner
+        run: |
+          echo "🔥 Nucleus Guard VM runner is working!"
+          hostname
+          uname -a
