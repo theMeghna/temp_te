@@ -12,12 +12,18 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: nucleus-guard/verify-action@v1
-        with:
-          guard-url: ${{ secrets.NUCLEUS_GUARD_URL }}
-          guard-token: ${{ secrets.NUCLEUS_GUARD_TOKEN }}
-          repo-slug: temp-te
+      - name: Run Nucleus Guard
+        env:
+          NUCLEUS_GUARD_URL: ${{ secrets.NUCLEUS_GUARD_URL }}
+          NUCLEUS_GUARD_TOKEN: ${{ secrets.NUCLEUS_GUARD_TOKEN }}
+        run: |
+          python3 /home/vboxuser/nucleus-guard/scripts/guard_ci.py review \
+            --base "${{ github.event.pull_request.base.sha }}" \
+            --head "${{ github.event.pull_request.head.sha }}" \
+            --repo "temp_te" \
+            --cwd "$GITHUB_WORKSPACE"
