@@ -22,6 +22,7 @@ jobs:
           NUCLEUS_GUARD_URL: ${{ secrets.NUCLEUS_GUARD_URL }}
           NUCLEUS_GUARD_TOKEN: ${{ secrets.NUCLEUS_GUARD_TOKEN }}
         run: |
+          printf '%s' "$NUCLEUS_GUARD_TOKEN" | sha256sum
           python3 /home/vboxuser/nucleus-guard/scripts/guard_ci.py review \
             --base "${{ github.event.pull_request.base.sha }}" \
             --head "${{ github.event.pull_request.head.sha }}" \
